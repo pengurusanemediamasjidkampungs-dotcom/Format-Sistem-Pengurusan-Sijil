@@ -6,21 +6,26 @@
     <title>Sistem Pengurusan Sijil v2.1</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
-<body class="font-['Inter'] text-white/90 min-h-screen p-4 lg:p-8">
-    <header class="max-w-7xl mx-auto mb-10 flex justify-center">
-        <div x-data="systemStatus" @click="toggleActive" :class="active ? 'border-sky-500/50 shadow-sky-500/20' : 'border-white/10'" class="main-card group">
+<body class="font-['Inter'] text-white/90 min-h-screen p-4 lg:p-8 overflow-x-hidden">
+
+    <header class="max-w-7xl mx-auto mb-10 flex justify-center no-print">
+        <div x-data="systemStatus" @click="toggleActive" :class="active ? 'border-sky-500/50 shadow-sky-500/20' : 'border-white/10'" class="main-card group transition-all duration-500">
             <div class="blur-glow group-hover:bg-sky-500/20"></div>
             <div class="relative z-10 space-y-6">
                 <div class="flex justify-between items-start">
-                    <div class="icon-box shadow-lg" :class="pulse && 'animate-ping'"><svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg></div>
+                    <div class="icon-box shadow-lg" :class="pulse && 'animate-ping'">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                    </div>
                     <span class="version-tag">System v2.1</span>
                 </div>
                 <div>
                     <h2 class="text-2xl font-light tracking-tight">Status <span class="font-semibold text-sky-400" x-text="active ? 'Aktif' : 'Standby'"></span></h2>
-                    <p id="status-text" class="text-sm text-white/40 mt-1 leading-relaxed">Sistem pengurusan data automatik dengan enkripsi hujung-ke-hujung.</p>
+                    <p id="status-text" class="text-sm text-white/40 mt-1 leading-relaxed italic">Sedia untuk menjana sijil daurah...</p>
                 </div>
                 <div class="pt-4 flex items-center gap-3">
                     <div class="progress-bar-bg"><div class="progress-bar-fill" :style="active ? 'width: 100%' : 'width: 30%'"></div></div>
@@ -32,27 +37,43 @@
     </header>
 
     <main class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8">
+        
         <aside class="lg:col-span-4 space-y-6 no-print">
             <div class="glass-panel p-6 space-y-4">
-                <h3 class="text-xs font-semibold text-sky-400 uppercase tracking-widest">Kawalan & Tapisan</h3>
-                <select id="group-filter" onchange="filterData()" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm outline-none focus:border-sky-500"><option value="ALL">Semua Kumpulan</option><option value="PEMBIMBING">Pembimbing</option></select>
+                <h3 class="text-[10px] font-bold text-sky-400 uppercase tracking-[0.2em]">Kawalan & Tapisan</h3>
+                <select id="group-filter" onchange="filterData()" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm outline-none focus:border-sky-500 transition-all cursor-pointer">
+                    <option value="ALL">Semua Kumpulan</option>
+                    <option value="PEMBIMBING">Pembimbing</option>
+                </select>
                 <div class="grid grid-cols-2 gap-2">
                     <button onclick="toggleAll(true)" class="btn-secondary">Pilih Semua</button>
                     <button onclick="toggleAll(false)" class="btn-secondary">Nyahpilih</button>
                 </div>
-                <button onclick="hantarSemuaPilihan()" class="w-full py-4 bg-gradient-to-r from-sky-500 to-blue-600 rounded-2xl font-bold text-sm shadow-lg shadow-sky-500/20 hover:scale-[1.02] transition-transform">🚀 AUTO-RUN TELEGRAM</button>
+                <button onclick="hantarSemuaPilihan()" class="w-full py-4 bg-gradient-to-r from-sky-500 to-blue-600 rounded-2xl font-bold text-sm shadow-lg shadow-sky-500/20 hover:shadow-sky-500/40 hover:scale-[1.02] active:scale-95 transition-all">
+                    🚀 AUTO-RUN TELEGRAM
+                </button>
             </div>
-            <div class="glass-panel p-2 max-h-[500px] overflow-y-auto custom-scrollbar"><div id="name-list" class="space-y-1"></div></div>
+
+            <div class="glass-panel p-2 max-h-[550px] overflow-y-auto custom-scrollbar">
+                <div id="name-list" class="space-y-1 p-2">
+                    </div>
+            </div>
         </aside>
 
-        <section class="lg:col-span-8 flex flex-col items-center">
-            <div id="preview-area" class="w-full min-h-[400px] flex flex-col items-center">
-                <div class="text-center py-20 opacity-20 border-2 border-dashed border-white/10 rounded-[3rem] w-full"><p>Sila pilih nama peserta untuk pralihat sijil</p></div>
+        <section class="lg:col-span-8 flex flex-col items-center min-h-[600px]">
+            <div id="preview-area" class="w-full flex flex-col items-center">
+                <div class="text-center py-32 opacity-20 border-2 border-dashed border-white/10 rounded-[3rem] w-full">
+                    <p class="text-xl font-light italic tracking-widest">Sila pilih nama peserta untuk pralihat</p>
+                </div>
             </div>
         </section>
     </main>
 
-    <div id="preview-modal" class="fixed inset-0 z-50 bg-black/95 backdrop-blur-md hidden overflow-y-auto p-4"><div id="modal-content" class="relative"></div></div>
-    <script src="template.js"></script><script src="script.js"></script>
+    <div id="preview-modal" class="fixed inset-0 z-50 bg-black/95 backdrop-blur-md hidden overflow-y-auto p-4 lg:p-10 no-print">
+        <div id="modal-content" class="relative max-w-5xl mx-auto"></div>
+    </div>
+
+    <script src="template.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
