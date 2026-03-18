@@ -1,39 +1,145 @@
-/* Custom Utility Classes untuk Glassmorphism */
+/* * style.css - Sistem Pengurusan Sijil v2.1
+ * Gabungan: Glassmorphism UI & Ink-Saver Print Engine
+ */
 
-.main-card {
-    @apply relative w-80 p-8 rounded-[2rem] border backdrop-blur-xl bg-white/5 transition-all duration-700 cursor-pointer overflow-hidden;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+    /* --- DASHBOARD UI: GLASSMORPHISM --- */
+    
+    .main-card {
+        @apply relative w-80 p-8 rounded-[2rem] border border-white/10 backdrop-blur-xl bg-white/5 
+               transition-all duration-700 cursor-pointer overflow-hidden;
+    }
+
+    .glass-panel {
+        @apply bg-white/5 border border-white/10 rounded-[2rem] backdrop-blur-xl shadow-2xl;
+    }
+
+    .blur-glow {
+        @apply absolute -top-24 -left-24 w-48 h-48 bg-sky-500/10 blur-[80px] transition-all;
+    }
+
+    .icon-box {
+        @apply p-3 rounded-2xl bg-gradient-to-br from-sky-400 to-blue-600 shadow-lg;
+    }
+
+    .version-tag {
+        @apply text-[10px] tracking-[0.2em] text-white/30 uppercase font-medium;
+    }
+
+    /* --- PROGRESS & STATUS --- */
+    
+    .progress-bar-bg {
+        @apply h-1.5 flex-1 bg-white/10 rounded-full overflow-hidden;
+    }
+
+    .progress-bar-fill {
+        @apply h-full bg-sky-500 transition-all duration-1000;
+    }
+
+    .status-label {
+        @apply text-[10px] font-mono text-sky-400 font-bold uppercase;
+    }
+
+    .overlay-gradient {
+        @apply absolute inset-0 bg-gradient-to-tr from-white/5 to-transparent opacity-0 transition-opacity;
+    }
+
+    /* --- LIST & INTERACTIVE ELEMENTS --- */
+
+    .name-item {
+        @apply flex items-center justify-between p-4 rounded-2xl hover:bg-sky-500/10 
+               transition-all border border-transparent hover:border-sky-500/20 cursor-pointer;
+    }
+
+    .btn-secondary {
+        @apply py-2 px-4 bg-white/5 border border-white/10 rounded-xl text-[10px] 
+               font-bold uppercase tracking-widest hover:bg-white/10 transition-all text-white/70;
+    }
+
+    /* --- SCROLLBAR CUSTOMIZATION --- */
+
+    .custom-scrollbar::-webkit-scrollbar {
+        width: 5px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+        @apply bg-transparent;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+        @apply bg-white/10 rounded-full hover:bg-sky-500/30 transition-colors;
+    }
 }
 
-.blur-glow {
-    @apply absolute -top-24 -left-24 w-48 h-48 bg-sky-500/10 blur-[80px] transition-all;
+/* --- CERTIFICATE LAYOUT ENGINE --- */
+
+.certificate {
+    background-color: white !important;
+    background-image: none !important; /* Ink Saver: No background images */
+    color: #1e293b !important; /* Slate-800 */
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1);
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
 }
 
-.icon-box {
-    @apply p-3 rounded-2xl bg-gradient-to-br from-sky-400 to-blue-600;
+/* Portrait Fix */
+.portrait {
+    width: 210mm;
+    height: 297mm;
 }
 
-.version-tag {
-    @apply text-[10px] tracking-[0.2em] text-white/30 uppercase font-medium;
+/* Landscape Fix */
+.landscape {
+    width: 297mm;
+    height: 210mm;
 }
 
-.progress-bar-bg {
-    @apply h-1.5 flex-1 bg-white/10 rounded-full overflow-hidden;
-}
+/* --- PRINT RULES (CRITICAL) --- */
 
-.progress-bar-fill {
-    @apply h-full bg-sky-500 transition-all duration-1000;
-}
-
-.status-label {
-    @apply text-[10px] font-mono text-sky-400;
-}
-
-.overlay-gradient {
-    @apply absolute inset-0 bg-gradient-to-tr from-white/5 to-transparent opacity-0 transition-opacity;
-}
-
-/* Tambahan untuk sijil supaya tetap Putih/Clean bila dicetak */
 @media print {
-    body { background: white !important; color: black !important; }
-    .main-card, .no-print { display: none !important; }
+    /* Sembunyikan semua elemen UI Dashboard */
+    body {
+        background: white !important;
+        color: black !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    .no-print, 
+    header, 
+    aside, 
+    .main-card, 
+    .glass-panel, 
+    button, 
+    #status-text,
+    .version-tag {
+        display: none !important;
+    }
+
+    /* Pastikan sijil sahaja yang muncul */
+    #preview-area {
+        margin: 0 !important;
+        padding: 0 !important;
+        width: 100% !important;
+    }
+
+    .certificate {
+        box-shadow: none !important;
+        border: none !important; /* Clean edge for printing */
+        margin: 0 !important;
+        page-break-after: always;
+    }
+
+    /* Paksa background putih untuk elemen dalam sijil */
+    .certificate * {
+        background-color: transparent !important;
+    }
+}
+
+/* Animation for Preview */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
 }
