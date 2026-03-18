@@ -1,0 +1,39 @@
+/* Custom Utility Classes untuk Glassmorphism */
+
+.main-card {
+    @apply relative w-80 p-8 rounded-[2rem] border backdrop-blur-xl bg-white/5 transition-all duration-700 cursor-pointer overflow-hidden;
+}
+
+.blur-glow {
+    @apply absolute -top-24 -left-24 w-48 h-48 bg-sky-500/10 blur-[80px] transition-all;
+}
+
+.icon-box {
+    @apply p-3 rounded-2xl bg-gradient-to-br from-sky-400 to-blue-600;
+}
+
+.version-tag {
+    @apply text-[10px] tracking-[0.2em] text-white/30 uppercase font-medium;
+}
+
+.progress-bar-bg {
+    @apply h-1.5 flex-1 bg-white/10 rounded-full overflow-hidden;
+}
+
+.progress-bar-fill {
+    @apply h-full bg-sky-500 transition-all duration-1000;
+}
+
+.status-label {
+    @apply text-[10px] font-mono text-sky-400;
+}
+
+.overlay-gradient {
+    @apply absolute inset-0 bg-gradient-to-tr from-white/5 to-transparent opacity-0 transition-opacity;
+}
+
+/* Tambahan untuk sijil supaya tetap Putih/Clean bila dicetak */
+@media print {
+    body { background: white !important; color: black !important; }
+    .main-card, .no-print { display: none !important; }
+}
