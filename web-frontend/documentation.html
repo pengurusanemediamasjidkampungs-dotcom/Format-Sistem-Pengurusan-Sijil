@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ms" class="bg-[#050505] scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manual Aliran Kerja - Sistem Sijil v2.1</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="font-['Inter'] text-white/90 min-h-screen p-4 lg:p-12">
+
+    <header class="max-w-5xl mx-auto text-center mb-16">
+        <h1 class="text-4xl font-light tracking-tighter text-sky-400">Blueprint <span class="font-bold text-white uppercase">Sistem Sijil</span></h1>
+        <p class="text-white/40 mt-4 text-sm tracking-widest uppercase">Panduan Penuh & Aliran Kerja Automasi (End-to-End)</p>
+    </header>
+
+    <nav x-data="{ selected: 1 }" class="max-w-6xl mx-auto">
+        <div class="grid grid-cols-2 lg:grid-cols-5 gap-4 mb-12">
+            <template x-for="i in [1, 2, 3, 4, 5]">
+                <button @click="selected = i" 
+                        :class="selected === i ? 'border-sky-500 bg-sky-500/10 text-sky-400' : 'border-white/10 bg-white/5 text-white/40'"
+                        class="p-4 rounded-2xl border backdrop-blur-xl transition-all duration-500 text-xs font-bold uppercase tracking-widest">
+                    Langkah <span x-text="i"></span>
+                </button>
+            </template>
+        </div>
+
+        <div class="glass-panel p-8 lg:p-12 min-h-[500px] relative overflow-hidden">
+            <div class="blur-glow opacity-30"></div>
+
+            <div x-show="selected === 1" x-transition.opacity.duration.500ms class="space-y-6 relative z-10">
+                <h2 class="text-3xl font-light italic text-sky-400 underline decoration-sky-500/20 underline-offset-8">Langkah 1: Blueprint & Gemini AI</h2>
+                <div class="grid lg:grid-cols-2 gap-8">
+                    <div class="space-y-4 text-sm leading-relaxed text-white/70">
+                        <p>Segalanya bermula dengan <strong>Gemini AI</strong> sebagai rakan kolaborasi utama. Prosesnya:</p>
+                        <ul class="list-disc list-inside space-y-2">
+                            <li><strong>Prompting:</strong> Berikan struktur data (JSON) dan konsep (Glassmorphism) kepada Gemini.</li>
+                            <li><strong>Iterasi:</strong> Minta Gemini memisahkan kod (HTML/CSS/JS) untuk kemudahan maintenance.</li>
+                            <li><strong>Fixing:</strong> Jika ada "Error" pada PDF atau layout, tampal kod tersebut ke Gemini untuk "Debug".</li>
+                        </ul>
+                    </div>
+                    <div class="bg-white/5 p-6 rounded-[2rem] border border-white/10 font-mono text-[10px] text-sky-300">
+                        # Contoh Prompt Gemini<br>
+                        "Tukarkan layout index.html saya kepada 12-kolom Grid dengan tema Apple-style dan tambahkan filter kumpulan."
+                    </div>
+                </div>
+            </div>
+
+            <div x-show="selected === 2" x-transition.opacity.duration.500ms class="space-y-6 relative z-10">
+                <h2 class="text-3xl font-light text-sky-400">Langkah 2: Arkib GitHub & Data JSON</h2>
+                <div class="space-y-6">
+                    <div class="flex items-start gap-4 p-6 bg-white/5 rounded-3xl border border-white/5">
+                        <div class="p-3 bg-sky-500/20 rounded-xl text-sky-400 font-bold">📂</div>
+                        <div>
+                            <h4 class="font-bold">Struktur Folder</h4>
+                            <p class="text-xs text-white/40">Pastikan folder `web-frontend` mengandungi data.json, assets/, dan core scripts.</p>
+                        </div>
+                    </div>
+                    <div class="grid lg:grid-cols-3 gap-4">
+                        <div class="p-4 bg-white/5 rounded-2xl border border-white/5 text-center">
+                            <span class="block text-2xl mb-2">💾</span>
+                            <p class="text-[10px] font-bold uppercase">Update Data JSON</p>
+                        </div>
+                        <div class="p-4 bg-white/5 rounded-2xl border border-white/5 text-center">
+                            <span class="block text-2xl mb-2">🎨</span>
+                            <p class="text-[10px] font-bold uppercase">Upload Assets (Logo/Sign)</p>
+                        </div>
+                        <div class="p-4 bg-white/5 rounded-2xl border border-white/5 text-center">
+                            <span class="block text-2xl mb-2">🌐</span>
+                            <p class="text-[10px] font-bold uppercase">Aktif GitHub Pages</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div x-show="selected === 3" x-transition.opacity.duration.500ms class="space-y-6 relative z-10">
+                <h2 class="text-3xl font-light text-sky-400">Langkah 3: Dashboard & Custom Adjust</h2>
+                <p class="text-sm text-white/60 leading-relaxed">Antaramuka <strong>v2.1</strong> membolehkan anda membuat pengesahan terakhir sebelum PDF dijana.</p>
+                <div class="grid lg:grid-cols-2 gap-6">
+                    <div class="p-6 bg-sky-500/10 rounded-[2rem] border border-sky-500/20">
+                        <h4 class="text-sky-400 font-bold mb-2 uppercase text-xs tracking-widest">Hardcoded Fixes</h4>
+                        <p class="text-xs">Ubah suai <code>template.js</code> jika kedudukan tandatangan perlu dinaikkan sedikit untuk cetakan rasmi.</p>
+                    </div>
+                    <div class="p-6 bg-white/5 rounded-[2rem] border border-white/10">
+                        <h4 class="text-white font-bold mb-2 uppercase text-xs tracking-widest">Ink Saver Mode</h4>
+                        <p class="text-xs">Sistem secara automatik menggunakan latar belakang putih dalam <code>style.css</code> semasa proses janaan.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div x-show="selected === 4" x-transition.opacity.duration.500ms class="space-y-6 relative z-10">
+                <h2 class="text-3xl font-light text-sky-400">Langkah 4: Auto-Run & Telegram Bridge</h2>
+                <div class="relative pl-8 border-l-2 border-sky-500/30 space-y-8">
+                    <div class="relative">
+                        <div class="absolute -left-[41px] top-0 w-4 h-4 rounded-full bg-sky-500 shadow-[0_0_15px_rgba(14,165,233,0.5)]"></div>
+                        <h4 class="font-bold text-sm uppercase">Frontend Render</h4>
+                        <p class="text-xs text-white/40">Browser menukarkan kod HTML Sijil kepada Blob PDF menggunakan html2pdf.js.</p>
+                    </div>
+                    <div class="relative">
+                        <div class="absolute -left-[41px] top-0 w-4 h-4 rounded-full bg-sky-500"></div>
+                        <h4 class="font-bold text-sm uppercase">Flask Bridge (app.py)</h4>
+                        <p class="text-xs text-white/40">PDF dihantar ke backend local untuk disimpan secara kekal dalam folder `output/`.</p>
+                    </div>
+                    <div class="relative">
+                        <div class="absolute -left-[41px] top-0 w-4 h-4 rounded-full bg-sky-500"></div>
+                        <h4 class="font-bold text-sm uppercase">Telegram Notification</h4>
+                        <p class="text-xs text-white/40">Bot menghantar fail sijil terus ke Telegram Desktop untuk semakan pantas.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div x-show="selected === 5" x-transition.opacity.duration.500ms class="space-y-6 relative z-10">
+                <h2 class="text-3xl font-light text-sky-400">Langkah 5: Final Output & Arkib</h2>
+                <div class="p-8 bg-gradient-to-br from-sky-500/20 to-blue-600/20 rounded-[3rem] border border-white/10 text-center">
+                    <h3 class="text-xl font-bold mb-4">Sistem Sedia Digunakan!</h3>
+                    <p class="text-sm text-white/70 max-w-lg mx-auto mb-8">Gunakan fail <code>combine_v2.py</code> untuk menggabungkan kesemua 32 sijil menjadi satu PDF Master untuk tujuan cetakan kilang atau arkib masjid.</p>
+                    <div class="flex justify-center gap-4">
+                        <span class="px-4 py-2 bg-white/10 rounded-full text-[10px] font-bold">32 PDF INDIVIDU</span>
+                        <span class="px-4 py-2 bg-white/10 rounded-full text-[10px] font-bold">1 PDF MASTER</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </nav>
+
+    <footer class="mt-20 text-center text-white/20 text-[10px] tracking-[0.5em] uppercase no-print">
+        Manual Sistem Pengurusan Sijil v2.1 • Aiman Rafee AI Integration
+    </footer>
+
+</body>
+</html>
